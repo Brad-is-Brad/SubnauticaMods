@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaLevelMod", "SeaLevelMod.csproj", "{C97E9FC7-796F-40B2-86A8-25842D6598F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C97E9FC7-796F-40B2-86A8-25842D6598F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C97E9FC7-796F-40B2-86A8-25842D6598F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C97E9FC7-796F-40B2-86A8-25842D6598F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C97E9FC7-796F-40B2-86A8-25842D6598F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {06DB9556-028C-41FC-82F7-CEA422B7E3E1}
+	EndGlobalSection
+EndGlobal
