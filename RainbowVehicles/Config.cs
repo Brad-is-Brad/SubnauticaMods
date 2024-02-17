@@ -2,16 +2,32 @@
 using System;
 using System.IO;
 
-namespace RainbowSeamoth
+namespace RainbowVehicles
 {
     internal class Config
     {
-        public float changeSpeed = 100f;
-        public bool changeMain = true;
-        public bool changeName = true;
-        public bool changeInterior = true;
-        public bool changeStripe1 = true;
-        public bool changeStripe2 = true;
+        // Seamoth
+        public float seamothChangeSpeed = 100f;
+        public bool changeSeamothMain = true;
+        public bool changeSeamothName = true;
+        public bool changeSeamothInterior = true;
+        public bool changeSeamothStripe1 = true;
+        public bool changeSeamothStripe2 = true;
+
+        // Cyclops
+        public float cyclopsChangeSpeed = 100f;
+        public bool changeCyclopsBase = true;
+        public bool changeCyclopsStripe1 = true;
+        public bool changeCyclopsStripe2 = true;
+        public bool changeCyclopsName = true;
+
+        // Prawn Suit
+        public float prawnSuitChangeSpeed = 100f;
+        public bool changePrawnSuitBase = true;
+        public bool changePrawnSuitName = true;
+        public bool changePrawnSuitInterior = true;
+        public bool changePrawnSuitStripe1 = true;
+        public bool changePrawnSuitStripe2 = true;
 
         public static Config Load()
         {

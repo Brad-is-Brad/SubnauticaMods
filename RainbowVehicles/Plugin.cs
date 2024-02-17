@@ -3,9 +3,9 @@ using BepInEx.Logging;
 using HarmonyLib;
 using System.Reflection;
 
-namespace RainbowSeamoth
+namespace RainbowVehicles
 {
-    [BepInPlugin("com.bradisbrad.RainbowSeamoth", "RainbowSeamoth", "1.0.0")]
+    [BepInPlugin("com.bradisbrad.RainbowVehicles", "RainbowVehicles", "1.1.0")]
     public class Plugin : BaseUnityPlugin
     {
         internal static new ManualLogSource Logger;
@@ -23,7 +23,7 @@ namespace RainbowSeamoth
                 harmony.PatchAll(assembly);
                 Logger.LogInfo($"{modName} patched!");
 
-                config = RainbowSeamoth.Config.Load();
+                config = RainbowVehicles.Config.Load();
             }
             catch (System.Exception e)
             {
