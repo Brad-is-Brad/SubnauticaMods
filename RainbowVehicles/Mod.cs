@@ -37,9 +37,18 @@ namespace RainbowVehicles
             Stripe2 = 4,
         }
 
+        enum RocketColors
+        {
+            Base = 0,
+            Stripe1 = 1,
+            Stripe2 = 2,
+            Name = 3,
+        }
+
         static List<SubName> seamothSubNames = new List<SubName>();
         static List<SubName> cyclopsSubNames = new List<SubName>();
         static List<SubName> prawnSuitSubNames = new List<SubName>();
+        static List<SubName> rocketSubNames = new List<SubName>();
 
         [HarmonyPatch(typeof(DayNightCycle))]
         [HarmonyPatch("Update")]
@@ -51,6 +60,7 @@ namespace RainbowVehicles
                 UpdateSeaMothColors(__instance);
                 UpdateCyclopsColors(__instance);
                 UpdatePrawnSuitColors(__instance);
+                UpdateRocketColors(__instance);
             }
         }
 
@@ -98,6 +108,21 @@ namespace RainbowVehicles
                 if (subName != null && !prawnSuitSubNames.Contains(subName))
                 {
                     prawnSuitSubNames.Add(subName);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Rocket))]
+        [HarmonyPatch("Start")]
+        internal class Patch_Rocket_Start
+        {
+            [HarmonyPrefix]
+            public static void Prefix(Rocket __instance)
+            {
+                SubName subName = __instance.GetComponentInChildren<SubName>();
+                if (subName != null && !rocketSubNames.Contains(subName))
+                {
+                    rocketSubNames.Add(subName);
                 }
             }
         }
@@ -189,6 +214,37 @@ namespace RainbowVehicles
                     ;
 
                     subName.SetColor(
+                        i,
+                        Vector3.one,
+                        Color.HSVToRGB(hueValue, 1f, 1f)
+                    );
+                }
+            }
+        }
+
+        private static void UpdateRocketColors(DayNightCycle dayNightCycle)
+        {
+            rocketSubNames.RemoveAll(item => item == null);
+
+            foreach (SubName rocketSubName in rocketSubNames)
+            {
+                Vector3[] cols = rocketSubName.GetColors();
+
+                float inc = 1f / cols.Length;
+                for (int i = 0; i < cols.Length; i++)
+                {
+                    if (i == (int)RocketColors.Base && !Plugin.config.changeRocketBase) continue;
+                    if (i == (int)RocketColors.Stripe1 && !Plugin.config.changeRocketStripe1) continue;
+                    if (i == (int)RocketColors.Stripe2 && !Plugin.config.changeRocketStripe2) continue;
+                    if (i == (int)RocketColors.Name && !Plugin.config.changeRocketName) continue;
+
+                    float hueValue =
+                        (dayNightCycle.GetDayScalar() * Plugin.config.rocketChangeSpeed
+                        + inc * i)
+                        % 1f
+                    ;
+
+                    rocketSubName.SetColor(
                         i,
                         Vector3.one,
                         Color.HSVToRGB(hueValue, 1f, 1f)

@@ -29,6 +29,13 @@ namespace RainbowVehicles
         public bool changePrawnSuitStripe1 = true;
         public bool changePrawnSuitStripe2 = true;
 
+        // Rocket
+        public float rocketChangeSpeed = 100f;
+        public bool changeRocketBase = true;
+        public bool changeRocketStripe1 = true;
+        public bool changeRocketStripe2 = true;
+        public bool changeRocketName = true;
+
         public static Config Load()
         {
             try
