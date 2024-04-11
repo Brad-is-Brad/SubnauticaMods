@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace RainbowVehicles
 {
-    [BepInPlugin("com.bradisbrad.RainbowVehicles", "RainbowVehicles", "1.1.0")]
+    [BepInPlugin("com.bradisbrad.RainbowVehicles", "RainbowVehicles", "1.2.0")]
     public class Plugin : BaseUnityPlugin
     {
         internal static new ManualLogSource Logger;
