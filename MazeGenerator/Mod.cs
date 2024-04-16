@@ -48,6 +48,7 @@ namespace MazeGeneratorMod
             TechType.CrashHome,
             TechType.PictureFrame,
             TechType.Sign,
+            TechType.PurpleBrainCoral,
 
             // Finish
             TechType.Flare,

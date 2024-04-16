@@ -181,6 +181,8 @@ namespace MazeGeneratorMod
 
                 if (__instance == oxygenClickSign)
                 {
+                    // Regeneration required due to purple brain coral
+                    regenerationRequired = true;
                     Mod.oxygenEnabled = !Mod.oxygenEnabled;
                     UpdateUI();
                     return false;

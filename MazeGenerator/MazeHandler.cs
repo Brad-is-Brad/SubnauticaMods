@@ -40,6 +40,8 @@ namespace MazeGeneratorMod
         private static float posterHorizontalOffset = 2.4614f;
         private static float posterVerticalOffset = 0.5f;
 
+        private static List<GameObject> purpleBrainCorals = new List<GameObject>();
+
         public class PosterPlacement
         {
             public Vector3 position;
@@ -774,22 +776,6 @@ namespace MazeGeneratorMod
                         Int3 frontCell = curCell.offset + new Int3(0, 0, -1);
                         Int3 backCell = curCell.offset + new Int3(0, 0, 1);
 
-                        if (CreatureHandler.creaturesEnabled)
-                        {
-                            if (solidWallCounts[curCell.offset] == 2)
-                            {
-                                if (
-                                    (!curCell.leftWall.solid && solidWallCounts.ContainsKey(leftCell) && solidWallCounts[leftCell] == 3)
-                                    || (!curCell.rightWall.solid && solidWallCounts.ContainsKey(rightCell) && solidWallCounts[rightCell] == 3)
-                                    || (!curCell.frontWall.solid && solidWallCounts.ContainsKey(frontCell) && solidWallCounts[frontCell] == 3)
-                                    || (!curCell.backWall.solid && solidWallCounts.ContainsKey(backCell) && solidWallCounts[backCell] == 3)
-                                )
-                                {
-                                    queuedCreaturePlacements.Enqueue(positions[posInc]);
-                                }
-                            }
-                        }
-
                         if (random.Next(0, 100) < posterPercentChance)
                         {
                             if (!curCell.leftWall.solid && solidWallCounts.ContainsKey(leftCell) && solidWallCounts[leftCell] == 3)
@@ -827,6 +813,31 @@ namespace MazeGeneratorMod
                                 );
 
                                 queuedPosterPlacements.Enqueue(posterPlacement);
+                            }
+                        }
+
+                        if (CreatureHandler.creaturesEnabled || !Mod.oxygenEnabled)
+                        {
+                            if (solidWallCounts[curCell.offset] == 2)
+                            {
+                                if (
+                                    (!curCell.leftWall.solid && solidWallCounts.ContainsKey(leftCell) && solidWallCounts[leftCell] == 3)
+                                    || (!curCell.rightWall.solid && solidWallCounts.ContainsKey(rightCell) && solidWallCounts[rightCell] == 3)
+                                    || (!curCell.frontWall.solid && solidWallCounts.ContainsKey(frontCell) && solidWallCounts[frontCell] == 3)
+                                    || (!curCell.backWall.solid && solidWallCounts.ContainsKey(backCell) && solidWallCounts[backCell] == 3)
+                                )
+                                {
+                                    if (!Mod.oxygenEnabled && random.Next(100) < 10)
+                                    {
+                                        SpawnPurpleBrainCoral(
+                                            positions[posInc] + new Vector3(0f, -2f, 0f)
+                                        );
+                                    }
+                                    else if (CreatureHandler.creaturesEnabled)
+                                    {
+                                        queuedCreaturePlacements.Enqueue(positions[posInc]);
+                                    }
+                                }
                             }
                         }
 
@@ -1030,6 +1041,21 @@ namespace MazeGeneratorMod
             }
         }
 
+        private static void SpawnPurpleBrainCoral(Vector3 position)
+        {
+            // Spawn a purple brain coral
+            GameObject gameObject = UnityEngine.Object.Instantiate(Mod.cachedPrefabs[TechType.PurpleBrainCoral]);
+            gameObject.transform.position = position;
+            gameObject.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+
+            // Fix purple brain coral's lighting
+            SubRoot currentSub = Mod.mazeBase.GetComponent<SubRoot>();
+            gameObject.transform.parent = currentSub.GetModulesRoot();
+            SkyEnvironmentChanged.Send(gameObject, currentSub);
+
+            purpleBrainCorals.Add(gameObject);
+        }
+
         public static GameObject SpawnPoster(Vector3 position, Quaternion rotation)
         {
             // Spawn a poster
@@ -1053,6 +1079,12 @@ namespace MazeGeneratorMod
         {
             foreach (var item in posters) { UnityEngine.Object.Destroy(item.gameObject); }
             posters.Clear();
+        }
+
+        private static void DestroyPurpleBrainCorals()
+        {
+            foreach (var item in purpleBrainCorals) { UnityEngine.Object.Destroy(item.gameObject); }
+            purpleBrainCorals.Clear();
         }
 
         private static void ProcessPosterPlacementQueue()
@@ -1115,6 +1147,7 @@ namespace MazeGeneratorMod
                 }
 
                 DestroyPosters();
+                DestroyPurpleBrainCorals();
                 CreatureHandler.DestroyCreatures();
                 PictureFrameHandler.DestroyFinishWall();
             }
