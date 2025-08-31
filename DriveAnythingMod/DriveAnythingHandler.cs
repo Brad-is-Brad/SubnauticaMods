@@ -38,7 +38,8 @@ namespace DriveAnythingMod
             "Geyser",
             "Streaming",
             "Atmosphere",
-            "Volume"
+            "Volume",
+            "Global Root"
         };
 
         static MethodInfo clearAllChunksMethod = typeof(MiniWorld).GetMethod("ClearAllChunks", BindingFlags.NonPublic | BindingFlags.Instance);

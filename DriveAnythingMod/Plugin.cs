@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace DriveAnythingMod
 {
-    [BepInPlugin("com.bradisbrad.SubnauticaMods.DriveAnythingMod", "DriveAnythingMod", "0.0.5")]
+    [BepInPlugin("com.bradisbrad.SubnauticaMods.DriveAnythingMod", "DriveAnythingMod", "0.0.6")]
     public class Plugin : BaseUnityPlugin
     {
         public static string ModName;
