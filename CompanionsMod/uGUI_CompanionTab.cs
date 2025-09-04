@@ -190,7 +190,8 @@ namespace CompanionsMod
             Plugin.Logger.LogInfo($"UpdateCompanionName - {companionName} - {companionType}");
             companionName?.SetText(CompanionHandler.instance.curCompanion.companionName);
             companionType?.SetText(CompanionHandler.instance.curCompanion.GetCleanTypeName());
-            CompanionHandler.instance.companionBeaconPingInstance.SetLabel(CompanionHandler.instance.curCompanion.companionName);
+            CompanionHandler.instance.companionBeaconPingInstance.SetLabel("Companion");
+
         }
 
         public void SetCompanionImage(string companionName)

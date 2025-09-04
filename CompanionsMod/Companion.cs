@@ -346,7 +346,6 @@ namespace CompanionsMod
             }*/
 
             CompanionHandler.instance.companionBeaconGameObject.transform.position = myCreature.gameObject.transform.position;
-            CompanionHandler.instance.companionBeaconPingInstance.SetVisible(true);
 
             uGUI_Ping ping = CompanionHandler.my_uGUI_Pings.pings[CompanionHandler.instance.companionBeaconPingInstance.Id];
             bool showDistance = ping._distance >= 15;

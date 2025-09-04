@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace CompanionsMod
 {
-    [BepInPlugin("com.bradisbrad.SubnauticaMods.CompanionsMod", "CompanionsMod", "0.0.5")]
+    [BepInPlugin("com.bradisbrad.SubnauticaMods.CompanionsMod", "CompanionsMod", "0.0.6")]
     public class Plugin : BaseUnityPlugin
     {
         internal static new ManualLogSource Logger;

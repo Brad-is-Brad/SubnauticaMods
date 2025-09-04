@@ -25,7 +25,6 @@ namespace CompanionsMod
         public PingInstance companionHealthBeaconPingInstance;
 
         public static uGUI_Pings my_uGUI_Pings;
-        public const int pingTypeIntValue = 20001;
 
         public ProgressBar healthBar;
         public static bool healthBarsAdded = true;
@@ -44,7 +43,7 @@ namespace CompanionsMod
                 companionBeaconGameObject = new GameObject();
                 companionBeaconPingInstance = companionBeaconGameObject.AddComponent<PingInstance>();
                 companionBeaconPingInstance.origin = companionBeaconGameObject.transform;
-                companionBeaconPingInstance.SetType((PingType)pingTypeIntValue);
+                companionBeaconPingInstance.SetType(PingType.Sunbeam);
                 companionBeaconPingInstance.SetLabel("Companion");
                 companionBeaconPingInstance.SetVisible(false);
                 companionBeaconPingInstance.minDist = 2f;
@@ -52,17 +51,19 @@ namespace CompanionsMod
                 companionHealthBeaconGameObject = new GameObject();
                 companionHealthBeaconPingInstance = companionHealthBeaconGameObject.AddComponent<PingInstance>();
                 companionHealthBeaconPingInstance.origin = companionHealthBeaconGameObject.transform;
-                companionHealthBeaconPingInstance.SetType((PingType)pingTypeIntValue);
+                companionHealthBeaconPingInstance.SetType(PingType.Sunbeam);
                 companionHealthBeaconPingInstance.SetLabel("");
-                companionHealthBeaconPingInstance.SetVisible(false);;
+                companionHealthBeaconPingInstance.SetVisible(false);
+                companionHealthBeaconPingInstance.displayPingInManager = false;
 
                 enemyBeaconGameObject = new GameObject();
                 enemyBeaconPingInstance = enemyBeaconGameObject.AddComponent<PingInstance>();
                 enemyBeaconPingInstance.origin = enemyBeaconGameObject.transform;
-                enemyBeaconPingInstance.SetType((PingType)pingTypeIntValue);
+                enemyBeaconPingInstance.SetType(PingType.Sunbeam);
                 enemyBeaconPingInstance.SetLabel("Target");
                 enemyBeaconPingInstance.SetVisible(false);
                 enemyBeaconPingInstance.minDist = 1f;
+                enemyBeaconPingInstance.displayPingInManager = false;
             }
             catch (Exception e)
             {
@@ -259,6 +260,7 @@ namespace CompanionsMod
                         awaitingCaptureTarget = false;
 
                         uGUI_CompanionTab.instance.UpdateCompanionName();
+                        CompanionHandler.instance.companionBeaconPingInstance.SetVisible(true);
 
                         /*Warper warper = companion.GetComponent<Warper>();
                         if (warper != null)
@@ -435,7 +437,14 @@ namespace CompanionsMod
             [HarmonyPrefix]
             public static bool Prefix(uGUI_PingEntry __instance, PingType type, string name)
             {
-                if (type == (PingType)pingTypeIntValue)
+                if (
+                    instance != null
+                    && (
+                        __instance.id.Equals(instance.companionBeaconPingInstance._id)
+                        || __instance.id.Equals(instance.companionHealthBeaconPingInstance._id)
+                        || __instance.id.Equals(instance.enemyBeaconPingInstance._id)
+                    )
+                )
                 {
                     // Set PDA ping label properly
                     __instance.label.text = name;
@@ -453,7 +462,14 @@ namespace CompanionsMod
             [HarmonyPrefix]
             public static bool Prefix(uGUI_PingEntry __instance, PingType type)
             {
-                if (type == (PingType)pingTypeIntValue)
+                if (
+                    instance != null
+                    && (
+                        __instance.id.Equals(instance.companionBeaconPingInstance._id)
+                        || __instance.id.Equals(instance.companionHealthBeaconPingInstance._id)
+                        || __instance.id.Equals(instance.enemyBeaconPingInstance._id)
+                    )
+                )
                 {
                     // Set PDA ping icon to the Sunbeam icon
                     __instance.icon.SetForegroundSprite(
@@ -467,21 +483,6 @@ namespace CompanionsMod
                 }
 
                 return true;
-            }
-        }
-
-        [HarmonyPatch(typeof(CachedEnumString<PingType>))]
-        [HarmonyPatch("Get")]
-        public class Patch_CachedEnumString_Get : MonoBehaviour
-        {
-            [HarmonyPrefix]
-            public static void Prefix(CachedEnumString<PingType> __instance, ref PingType value)
-            {
-                // Set in-world ping icon to the Sunbeam icon
-                if ((int)value == pingTypeIntValue)
-                {
-                    value = PingType.Sunbeam;
-                }
             }
         }
 
